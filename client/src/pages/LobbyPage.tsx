@@ -77,6 +77,12 @@ export default function LobbyPage() {
               Painel do Manager
             </Link>
           )}
+          <Link
+            to="/settings"
+            className="rounded bg-gray-700 px-3 py-2 text-sm hover:bg-gray-600"
+          >
+            Configurações
+          </Link>
           <button
             onClick={logout}
             className="rounded bg-gray-700 px-3 py-2 text-sm hover:bg-gray-600"

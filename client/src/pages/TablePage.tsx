@@ -5,6 +5,7 @@ import { CardText } from '../components/CardText';
 import { ChatPanel } from '../components/ChatPanel';
 import { HandResultBanner } from '../components/HandResultBanner';
 import { PlayersTable } from '../components/PlayersTable';
+import { PokerTable } from '../components/table/PokerTable';
 import { useSocket } from '../hooks/useSocket';
 import { getSocket } from '../lib/socket';
 import { useGameStore } from '../store/gameStore';
@@ -36,6 +37,7 @@ export default function TablePage() {
   const everSeatedRef = useRef(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [turnSeconds, setTurnSeconds] = useState<number | null>(null);
+  const [visualMode, setVisualMode] = useState<'mesa' | 'table'>('mesa');
 
   useEffect(() => {
     if (!tableId) {
@@ -130,6 +132,12 @@ export default function TablePage() {
               Stack: <span className="font-semibold text-emerald-400">{mySeat.stackSize}</span>
             </p>
           )}
+          <button
+            onClick={() => navigate('/settings')}
+            className="rounded bg-gray-700 px-3 py-2 text-sm hover:bg-gray-600"
+          >
+            Configurações
+          </button>
           <button
             onClick={handleLeave}
             className="rounded bg-gray-700 px-3 py-2 text-sm hover:bg-gray-600"
@@ -226,7 +234,29 @@ export default function TablePage() {
       )}
 
       <div className="mb-4">
-        <PlayersTable state={tableState} myUserId={user.id} myCards={myCards} />
+        <div className="mb-2 flex gap-2">
+          <button
+            onClick={() => setVisualMode('mesa')}
+            className={`rounded px-3 py-1 text-sm ${
+              visualMode === 'mesa' ? 'bg-emerald-600' : 'bg-gray-700 hover:bg-gray-600'
+            }`}
+          >
+            Vista Mesa
+          </button>
+          <button
+            onClick={() => setVisualMode('table')}
+            className={`rounded px-3 py-1 text-sm ${
+              visualMode === 'table' ? 'bg-emerald-600' : 'bg-gray-700 hover:bg-gray-600'
+            }`}
+          >
+            Vista Tabela
+          </button>
+        </div>
+        {visualMode === 'mesa' ? (
+          <PokerTable state={tableState} myUserId={user.id} myCards={myCards} />
+        ) : (
+          <PlayersTable state={tableState} myUserId={user.id} myCards={myCards} />
+        )}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
