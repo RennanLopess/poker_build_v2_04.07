@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import LobbyPage from './pages/LobbyPage';
 import TablePage from './pages/TablePage';
 import ManagerPage from './pages/ManagerPage';
+import SettingsPage from './pages/SettingsPage';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const token = useGameStore((state) => state.token);
@@ -57,6 +58,14 @@ export default function App() {
           <RequireManager>
             <ManagerPage />
           </RequireManager>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <RequireAuth>
+            <SettingsPage />
+          </RequireAuth>
         }
       />
       <Route path="*" element={<Navigate to="/lobby" replace />} />
